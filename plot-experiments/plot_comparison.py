@@ -3,9 +3,7 @@ import matplotlib.pyplot as plt
 
 
 def create_comparison_plots(function_id: int):
-    """Create comparison plots between R and Python implementations."""
 
-    # Load results
     r_conv = pd.read_csv(f"../des_comparison/r_convergence_f{function_id}_d10.csv")
     py_conv = pd.read_csv(f"../../python-evo/python_convergence_f{function_id}_d10.csv")
 
@@ -61,7 +59,7 @@ def create_comparison_plots(function_id: int):
     ax1.legend()
     ax1.grid(True, alpha=0.3)
 
-    # Plot 2: Box plot comparison
+    #  Box plot comparison
     data_to_plot = [
         r_summary["final_fitness"].values,
         py_summary["final_fitness"].values,
@@ -80,7 +78,6 @@ def create_comparison_plots(function_id: int):
     )
     plt.show()
 
-    # Statistical comparison
     from scipy.stats import wilcoxon
 
     statistic, p_value = wilcoxon(
@@ -93,10 +90,8 @@ def create_comparison_plots(function_id: int):
     print(f"P-value: {p_value}")
     print(f"Significant difference: {'Yes' if float(p_value) < 0.05 else 'No'}")
 
-    # Summary statistics
     print(f"\nR Implementation - Median: {r_summary['final_fitness'].median():.6e}")
     print(f"Python Implementation - Median: {py_summary['final_fitness'].median():.6e}")
 
 
-# Run the comparison
 create_comparison_plots(10)
