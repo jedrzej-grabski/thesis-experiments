@@ -41,7 +41,7 @@ run_des_cec2017 <- function(function_id, dimensions, runs = 10) {
     # Run DES optimization
     start_time <- Sys.time()
     result <- DES(
-      par = rep(0, dimensions),           # Initial point (center of search space)
+      par = rep(50, dimensions),           # Initial point (center of search space)
       fn = cec_function,
       lower = rep(-100, dimensions),      # CEC2017 standard bounds
       upper = rep(100, dimensions),
@@ -147,7 +147,7 @@ save_convergence_data <- function(results, function_id, dimensions) {
 # Main execution
 main <- function() {
   # Test parameters - start simple
-  function_id <- 1    # CEC2017 Function 1 (Shifted and Rotated Bent Cigar Function)
+  function_id <- 10    # CEC2017 Function 1 (Shifted and Rotated Bent Cigar Function)
   dimensions <- 10    # Start with 10 dimensions
   runs <- 10          # Number of independent runs
   

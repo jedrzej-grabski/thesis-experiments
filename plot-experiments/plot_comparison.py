@@ -2,15 +2,15 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-def create_comparison_plots():
+def create_comparison_plots(function_id: int):
     """Create comparison plots between R and Python implementations."""
 
     # Load results
-    r_conv = pd.read_csv("../des_comparison/r_convergence_f1_d10.csv")
-    py_conv = pd.read_csv("../../python-evo/python_convergence_f1_d10.csv")
+    r_conv = pd.read_csv(f"../des_comparison/r_convergence_f{function_id}_d10.csv")
+    py_conv = pd.read_csv(f"../../python-evo/python_convergence_f{function_id}_d10.csv")
 
-    r_summary = pd.read_csv("../des_comparison/r_summary_f1_d10.csv")
-    py_summary = pd.read_csv("../../python-evo/python_summary_f1_d10.csv")
+    r_summary = pd.read_csv(f"../des_comparison/r_summary_f{function_id}_d10.csv")
+    py_summary = pd.read_csv(f"../../python-evo/python_summary_f{function_id}_d10.csv")
 
     min_rows_conv = min(len(r_conv), len(py_conv))
     min_cols_conv = min(len(r_conv.columns), len(py_conv.columns))
@@ -57,7 +57,7 @@ def create_comparison_plots():
     ax1.set_yscale("log")
     ax1.set_xlabel("Iterations")
     ax1.set_ylabel("Best Fitness")
-    ax1.set_title("Convergence Comparison: CEC2017 F1 (10D)")
+    ax1.set_title(f"Convergence Comparison: CEC2017 F{function_id} (10D)")
     ax1.legend()
     ax1.grid(True, alpha=0.3)
 
@@ -75,7 +75,9 @@ def create_comparison_plots():
     ax2.grid(True, alpha=0.3)
 
     plt.tight_layout()
-    plt.savefig("r_vs_python_comparison.png", dpi=300, bbox_inches="tight")
+    plt.savefig(
+        f"r_vs_python_comparison_f{function_id}.png", dpi=300, bbox_inches="tight"
+    )
     plt.show()
 
     # Statistical comparison
@@ -97,4 +99,4 @@ def create_comparison_plots():
 
 
 # Run the comparison
-create_comparison_plots()
+create_comparison_plots(10)
