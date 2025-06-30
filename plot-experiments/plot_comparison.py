@@ -7,29 +7,25 @@ def create_comparison_plots():
 
     # Load results
     r_conv = pd.read_csv("../des_comparison/r_convergence_f1_d10.csv")
-    py_conv = pd.read_csv("../python-evo/python_convergence_f1_d10.csv")
+    py_conv = pd.read_csv("../../python-evo/python_convergence_f1_d10.csv")
 
     r_summary = pd.read_csv("../des_comparison/r_summary_f1_d10.csv")
-    py_summary = pd.read_csv("../python-evo/python_summary_f1_d10.csv")
+    py_summary = pd.read_csv("../../python-evo/python_summary_f1_d10.csv")
 
-    # Ensure convergence data has matching sizes - trim to smaller size
     min_rows_conv = min(len(r_conv), len(py_conv))
     min_cols_conv = min(len(r_conv.columns), len(py_conv.columns))
 
     r_conv = r_conv.iloc[:min_rows_conv, :min_cols_conv]
     py_conv = py_conv.iloc[:min_rows_conv, :min_cols_conv]
 
-    # Ensure summary data has matching sizes
     min_rows_summary = min(len(r_summary), len(py_summary))
 
     r_summary = r_summary.iloc[:min_rows_summary]
     py_summary = py_summary.iloc[:min_rows_summary]
 
-    # Create comparison plot
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
 
-    # Plot 1: Convergence curves
-    # Calculate median and quartiles
+    # Convergence curves
     r_median = r_conv.median(axis=1).dropna()
     r_q25 = r_conv.quantile(0.25, axis=1).dropna()
     r_q75 = r_conv.quantile(0.75, axis=1).dropna()
@@ -38,7 +34,6 @@ def create_comparison_plots():
     py_q25 = py_conv.quantile(0.25, axis=1).dropna()
     py_q75 = py_conv.quantile(0.75, axis=1).dropna()
 
-    # Ensure convergence curves have matching lengths
     min_conv_len = min(
         len(r_median), len(py_median), len(r_q25), len(r_q75), len(py_q25), len(py_q75)
     )
@@ -49,10 +44,8 @@ def create_comparison_plots():
     py_q25 = py_q25.iloc[:min_conv_len]
     py_q75 = py_q75.iloc[:min_conv_len]
 
-    # Create x-axis values that match the data length exactly
     x_values = range(min_conv_len)
 
-    # Plot convergence
     ax1.plot(x_values, r_median.values, "b-", label="R Implementation", linewidth=2)
     ax1.fill_between(x_values, r_q25.values, r_q75.values, alpha=0.3, color="blue")
 
@@ -96,7 +89,7 @@ def create_comparison_plots():
     print(f"Wilcoxon signed-rank test:")
     print(f"Statistic: {statistic}")
     print(f"P-value: {p_value}")
-    print(f"Significant difference: {'Yes' if p_value < 0.05 else 'No'}")
+    print(f"Significant difference: {'Yes' if float(p_value) < 0.05 else 'No'}")
 
     # Summary statistics
     print(f"\nR Implementation - Median: {r_summary['final_fitness'].median():.6e}")
